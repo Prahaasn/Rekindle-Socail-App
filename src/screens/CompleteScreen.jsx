@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import Logo from '../components/Logo'
 import { PROMPTS } from '../lib/prompts'
 
 export default function CompleteScreen({ gameState, onReset }) {
   const [showResponses, setShowResponses] = useState(false)
 
-  const getResponsePairs = () => {
+  const responsePairs = useMemo(() => {
     const pairs = []
     for (let i = 0; i < PROMPTS.length; i++) {
       const response1 = gameState.responses[i * 2]
@@ -21,7 +21,11 @@ export default function CompleteScreen({ gameState, onReset }) {
       }
     }
     return pairs
-  }
+  }, [gameState.responses, gameState.names])
+
+  const handleToggleResponses = useCallback(() => {
+    setShowResponses(prev => !prev)
+  }, [])
 
   return (
     <div className="screen complete-screen">
@@ -39,7 +43,7 @@ export default function CompleteScreen({ gameState, onReset }) {
         <div className="complete-actions">
           <button
             className="primary-button"
-            onClick={() => setShowResponses(!showResponses)}
+            onClick={handleToggleResponses}
           >
             {showResponses ? 'Hide Responses' : 'View Responses'}
           </button>
@@ -51,7 +55,7 @@ export default function CompleteScreen({ gameState, onReset }) {
 
         {showResponses && (
           <div className="responses-list">
-            {getResponsePairs().map((pair, index) => (
+            {responsePairs.map((pair, index) => (
               <div key={index} className="response-pair">
                 <div className="response-prompt">
                   <span className="response-emoji">{pair.prompt.emoji}</span>

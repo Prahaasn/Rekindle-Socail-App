@@ -1,28 +1,46 @@
-import { useState } from 'react'
+import { useState, memo, useCallback } from 'react'
 
-export default function ShareModal({ url, partnerName, onClose }) {
+const ShareModal = memo(function ShareModal({ url, partnerName, onClose }) {
   const [copied, setCopied] = useState(false)
 
-  const handleCopy = async () => {
+  const handleCopy = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(url)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
+      // Fallback for iOS
       const textArea = document.createElement('textarea')
       textArea.value = url
+      textArea.style.position = 'fixed'
+      textArea.style.left = '-9999px'
+      textArea.style.top = '0'
+      textArea.setAttribute('readonly', '')
       document.body.appendChild(textArea)
+      textArea.focus()
       textArea.select()
-      document.execCommand('copy')
+
+      try {
+        document.execCommand('copy')
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+      } catch (e) {
+        console.error('Copy failed', e)
+      }
+
       document.body.removeChild(textArea)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
     }
-  }
+  }, [url])
+
+  const handleOverlayClick = useCallback((e) => {
+    if (e.target === e.currentTarget) {
+      onClose()
+    }
+  }, [onClose])
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
+    <div className="modal-overlay" onClick={handleOverlayClick}>
+      <div className="modal-content">
         <h2 className="modal-title">Send to {partnerName}</h2>
         <p className="modal-description">
           Copy this link and send it to {partnerName} so they can respond.
@@ -49,4 +67,6 @@ export default function ShareModal({ url, partnerName, onClose }) {
       </div>
     </div>
   )
-}
+})
+
+export default ShareModal

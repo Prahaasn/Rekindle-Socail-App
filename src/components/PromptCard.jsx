@@ -1,4 +1,6 @@
-export default function PromptCard({ prompt }) {
+import { memo } from 'react'
+
+const PromptCard = memo(function PromptCard({ prompt }) {
   return (
     <div className="prompt-card">
       <div className="prompt-emoji">{prompt.emoji}</div>
@@ -6,4 +8,6 @@ export default function PromptCard({ prompt }) {
       <span className="prompt-theme">{prompt.theme}</span>
     </div>
   )
-}
+})
+
+export default PromptCard

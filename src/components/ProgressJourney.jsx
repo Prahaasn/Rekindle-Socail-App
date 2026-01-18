@@ -1,4 +1,6 @@
-export default function ProgressJourney({ currentDay, totalDays = 7 }) {
+import { memo } from 'react'
+
+const ProgressJourney = memo(function ProgressJourney({ currentDay, totalDays = 7 }) {
   return (
     <div className="progress-journey">
       <div className="progress-label">Day {currentDay} of {totalDays}</div>
@@ -14,4 +16,6 @@ export default function ProgressJourney({ currentDay, totalDays = 7 }) {
       </div>
     </div>
   )
-}
+})
+
+export default ProgressJourney

@@ -1,16 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo, useRef, useCallback } from 'react'
 
+// Lighter fire colors for the light theme
 const FIRE_COLORS = [
   'transparent',
-  '#1a0505',
-  '#4a1010',
-  '#8b2020',
-  '#cc4400',
-  '#ff6600',
-  '#ff9900',
-  '#ffcc00',
-  '#ffff66',
-  '#ffffff'
+  '#fff5f0',    // Very light pink
+  '#ffe4d6',    // Light peach
+  '#ffc9a8',    // Soft peach
+  '#ffaa7a',    // Light orange
+  '#ff8c4d',    // Orange
+  '#ff7733',    // Bright orange
+  '#ff6600',    // Deep orange
+  '#ff9933',    // Golden orange
+  '#ffcc66'     // Light golden
 ]
 
 const FIRE_WIDTH = 8
@@ -36,34 +37,50 @@ function generateFirePixels() {
         }
       }
 
-      pixels.push({
-        x,
-        y,
-        color: FIRE_COLORS[intensity]
-      })
+      pixels.push(intensity)
     }
   }
 
   return pixels
 }
 
-export default function PixelFire({ size = 'medium' }) {
+const PixelFire = memo(function PixelFire({ size = 'medium' }) {
   const [pixels, setPixels] = useState(() => generateFirePixels())
+  const rafRef = useRef(null)
+  const lastUpdateRef = useRef(0)
+
+  const updatePixels = useCallback((timestamp) => {
+    // Throttle to ~10fps (100ms) for performance
+    if (timestamp - lastUpdateRef.current >= 100) {
+      setPixels(generateFirePixels())
+      lastUpdateRef.current = timestamp
+    }
+    rafRef.current = requestAnimationFrame(updatePixels)
+  }, [])
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setPixels(generateFirePixels())
-    }, 100)
-
-    return () => clearInterval(interval)
-  }, [])
+    rafRef.current = requestAnimationFrame(updatePixels)
+    return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+      }
+    }
+  }, [updatePixels])
 
   const pixelSize = size === 'small' ? 3 : size === 'large' ? 6 : 4
   const width = FIRE_WIDTH * pixelSize
   const height = FIRE_HEIGHT * pixelSize
 
   return (
-    <div className="pixel-fire-container" style={{ width, height }}>
+    <div
+      className="pixel-fire-container"
+      style={{
+        width,
+        height,
+        willChange: 'transform',
+        transform: 'translateZ(0)'
+      }}
+    >
       <div className="pixel-fire-glow" />
       <div
         className="pixel-fire-grid"
@@ -72,14 +89,15 @@ export default function PixelFire({ size = 'medium' }) {
           height,
           display: 'grid',
           gridTemplateColumns: `repeat(${FIRE_WIDTH}, ${pixelSize}px)`,
-          gridTemplateRows: `repeat(${FIRE_HEIGHT}, ${pixelSize}px)`
+          gridTemplateRows: `repeat(${FIRE_HEIGHT}, ${pixelSize}px)`,
+          willChange: 'contents'
         }}
       >
-        {pixels.map((pixel, i) => (
+        {pixels.map((intensity, i) => (
           <div
             key={i}
             style={{
-              backgroundColor: pixel.color,
+              backgroundColor: FIRE_COLORS[intensity],
               width: pixelSize,
               height: pixelSize
             }}
@@ -88,4 +106,6 @@ export default function PixelFire({ size = 'medium' }) {
       </div>
     </div>
   )
-}
+})
+
+export default PixelFire

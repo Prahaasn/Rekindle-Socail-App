@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Logo from '../components/Logo'
 import PromptCard from '../components/PromptCard'
 import ProgressJourney from '../components/ProgressJourney'
@@ -18,16 +18,24 @@ export default function GameScreen({
 
   const currentPrompt = PROMPTS[gameState.day - 1]
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault()
     if (response.trim()) {
-      const newState = onSubmitResponse(response.trim())
+      onSubmitResponse(response.trim())
       const url = getShareUrl()
       setShareUrl(url)
       setShowModal(true)
       setResponse('')
     }
-  }
+  }, [response, onSubmitResponse, getShareUrl])
+
+  const handleResponseChange = useCallback((e) => {
+    setResponse(e.target.value)
+  }, [])
+
+  const handleCloseModal = useCallback(() => {
+    setShowModal(false)
+  }, [])
 
   return (
     <div className="screen game-screen">
@@ -44,10 +52,13 @@ export default function GameScreen({
         <form className="response-form" onSubmit={handleSubmit}>
           <textarea
             value={response}
-            onChange={(e) => setResponse(e.target.value)}
+            onChange={handleResponseChange}
             placeholder="Type your response..."
             rows={4}
             className="response-input"
+            autoCapitalize="sentences"
+            autoCorrect="on"
+            spellCheck="true"
           />
 
           <button
@@ -64,7 +75,7 @@ export default function GameScreen({
         <ShareModal
           url={shareUrl}
           partnerName={partnerName}
-          onClose={() => setShowModal(false)}
+          onClose={handleCloseModal}
         />
       )}
     </div>

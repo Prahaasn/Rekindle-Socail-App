@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import PixelFire from './PixelFire'
 
-export default function Logo({ size = 'medium', showFire = true }) {
+const Logo = memo(function Logo({ size = 'medium', showFire = true }) {
   const fontSize = size === 'small' ? '1.5rem' : size === 'large' ? '3rem' : '2.25rem'
 
   return (
@@ -15,4 +16,6 @@ export default function Logo({ size = 'medium', showFire = true }) {
       )}
     </div>
   )
-}
+})
+
+export default Logo

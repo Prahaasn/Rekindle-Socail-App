@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Logo from '../components/Logo'
 import ProgressJourney from '../components/ProgressJourney'
 import ShareModal from '../components/ShareModal'
@@ -6,9 +6,13 @@ import ShareModal from '../components/ShareModal'
 export default function WaitingScreen({ gameState, partnerName, getShareUrl }) {
   const [showModal, setShowModal] = useState(false)
 
-  const handleCopyLink = () => {
+  const handleCopyLink = useCallback(() => {
     setShowModal(true)
-  }
+  }, [])
+
+  const handleCloseModal = useCallback(() => {
+    setShowModal(false)
+  }, [])
 
   return (
     <div className="screen waiting-screen">
@@ -30,7 +34,7 @@ export default function WaitingScreen({ gameState, partnerName, getShareUrl }) {
         <ShareModal
           url={getShareUrl()}
           partnerName={partnerName}
-          onClose={() => setShowModal(false)}
+          onClose={handleCloseModal}
         />
       )}
     </div>
