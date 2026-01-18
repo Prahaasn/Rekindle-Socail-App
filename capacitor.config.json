@@ -1,0 +1,11 @@
+{
+  "appId": "com.rekindle.app",
+  "appName": "Rekindle",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "ios": {
+    "contentInset": "always"
+  }
+}
