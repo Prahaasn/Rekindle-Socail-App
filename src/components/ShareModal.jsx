@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Icon from './Icons'
 
 export default function ShareModal({ url, partnerName, onClose }) {
   const [copied, setCopied] = useState(false)
@@ -39,7 +40,8 @@ export default function ShareModal({ url, partnerName, onClose }) {
             onClick={handleCopy}
             className={`copy-button ${copied ? 'copied' : ''}`}
           >
-            {copied ? 'Copied!' : 'Copy'}
+            <Icon name={copied ? 'check' : 'copy'} size={16} />
+            {copied ? 'Copied' : 'Copy'}
           </button>
         </div>
 

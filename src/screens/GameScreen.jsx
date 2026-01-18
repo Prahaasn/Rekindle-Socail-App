@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Logo from '../components/Logo'
+import Icon from '../components/Icons'
 import PromptCard from '../components/PromptCard'
 import ProgressJourney from '../components/ProgressJourney'
 import ShareModal from '../components/ShareModal'
@@ -10,7 +11,8 @@ export default function GameScreen({
   currentPlayerName,
   partnerName,
   onSubmitResponse,
-  getShareUrl
+  getShareUrl,
+  onBack
 }) {
   const [response, setResponse] = useState('')
   const [showModal, setShowModal] = useState(false)
@@ -32,6 +34,11 @@ export default function GameScreen({
   return (
     <div className="screen game-screen">
       <header className="game-header">
+        {onBack && (
+          <button className="back-button" onClick={onBack}>
+            <Icon name="back" size={24} />
+          </button>
+        )}
         <Logo size="small" showFire={false} />
         <ProgressJourney currentDay={gameState.day} />
       </header>

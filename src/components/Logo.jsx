@@ -1,18 +1,16 @@
-import PixelFire from './PixelFire'
+import FireAnimation from './FireAnimation'
 
 export default function Logo({ size = 'medium', showFire = true }) {
-  const fontSize = size === 'small' ? '1.5rem' : size === 'large' ? '3rem' : '2.25rem'
-
   return (
     <div className="logo">
-      <h1 className="logo-text" style={{ fontSize }}>
-        rekindle
-      </h1>
       {showFire && (
         <div className="logo-fire">
-          <PixelFire size={size} />
+          <FireAnimation size={size} interactive />
         </div>
       )}
+      <h1 className={`logo-text ${size}`}>
+        Rekindle
+      </h1>
     </div>
   )
 }

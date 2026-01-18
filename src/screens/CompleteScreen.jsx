@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Logo from '../components/Logo'
+import Icon from '../components/Icons'
 import { PROMPTS } from '../lib/prompts'
 
 export default function CompleteScreen({ gameState, onReset }) {
@@ -29,7 +30,9 @@ export default function CompleteScreen({ gameState, onReset }) {
         <Logo size="medium" />
 
         <div className="complete-message">
-          <span className="complete-emoji">💝</span>
+          <div className="complete-icon">
+            <Icon name="heart" size={32} filled />
+          </div>
           <h2>Journey Complete</h2>
           <p>
             {gameState.names[0]} and {gameState.names[1]} spent 7 days reconnecting.
@@ -54,7 +57,9 @@ export default function CompleteScreen({ gameState, onReset }) {
             {getResponsePairs().map((pair, index) => (
               <div key={index} className="response-pair">
                 <div className="response-prompt">
-                  <span className="response-emoji">{pair.prompt.emoji}</span>
+                  <div className="prompt-icon-small">
+                    <Icon name={pair.prompt.icon} size={18} />
+                  </div>
                   <span className="response-day">Day {pair.prompt.day}</span>
                   <p>{pair.prompt.prompt}</p>
                 </div>

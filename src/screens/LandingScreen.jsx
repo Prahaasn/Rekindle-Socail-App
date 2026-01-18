@@ -1,16 +1,19 @@
 import { useState } from 'react'
 import Logo from '../components/Logo'
+import Icon from '../components/Icons'
 
 export default function LandingScreen({ onStart }) {
-  const [name1, setName1] = useState('')
-  const [name2, setName2] = useState('')
+  const [myName, setMyName] = useState('')
+  const [partnerName, setPartnerName] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (name1.trim() && name2.trim()) {
-      onStart(name1.trim(), name2.trim())
+    if (myName.trim() && partnerName.trim()) {
+      onStart(myName.trim(), partnerName.trim())
     }
   }
+
+  const isValid = myName.trim() && partnerName.trim()
 
   return (
     <div className="screen landing-screen">
@@ -21,35 +24,36 @@ export default function LandingScreen({ onStart }) {
 
         <form className="landing-form" onSubmit={handleSubmit}>
           <div className="input-group">
-            <label htmlFor="name1">Your name</label>
             <input
-              id="name1"
+              id="myName"
               type="text"
-              value={name1}
-              onChange={(e) => setName1(e.target.value)}
-              placeholder="Enter your name"
+              value={myName}
+              onChange={(e) => setMyName(e.target.value)}
+              placeholder=" "
               autoComplete="off"
             />
+            <label htmlFor="myName">Your name</label>
           </div>
 
           <div className="input-group">
-            <label htmlFor="name2">Their name</label>
             <input
-              id="name2"
+              id="partnerName"
               type="text"
-              value={name2}
-              onChange={(e) => setName2(e.target.value)}
-              placeholder="Enter their name"
+              value={partnerName}
+              onChange={(e) => setPartnerName(e.target.value)}
+              placeholder=" "
               autoComplete="off"
             />
+            <label htmlFor="partnerName">Their name</label>
           </div>
 
           <button
             type="submit"
             className="primary-button"
-            disabled={!name1.trim() || !name2.trim()}
+            disabled={!isValid}
           >
             Begin Journey
+            <Icon name="arrow" size={20} />
           </button>
         </form>
       </div>

@@ -4,9 +4,10 @@ import { getStateFromUrl, createShareUrl } from '../lib/stateEncoder'
 const INITIAL_STATE = {
   day: 1,
   turn: 'sender',
-  names: ['', ''],
+  names: ['Alex', 'Jordan'],
+  phones: ['', ''],
   responses: [],
-  startedAt: null
+  startedAt: Date.now()
 }
 
 export function useGameState() {
@@ -14,14 +15,7 @@ export function useGameState() {
     const urlState = getStateFromUrl()
     if (urlState) return urlState
 
-    const saved = localStorage.getItem('rekindle_state')
-    if (saved) {
-      try {
-        return JSON.parse(saved)
-      } catch (e) {
-        return INITIAL_STATE
-      }
-    }
+    // Skip localStorage for testing - always start with test names
     return INITIAL_STATE
   })
 
@@ -29,10 +23,11 @@ export function useGameState() {
     localStorage.setItem('rekindle_state', JSON.stringify(gameState))
   }, [gameState])
 
-  const startGame = (name1, name2) => {
+  const startGame = (name1, name2, phone2 = '') => {
     const newState = {
       ...INITIAL_STATE,
       names: [name1, name2],
+      phones: ['', phone2],
       startedAt: Date.now()
     }
     setGameState(newState)

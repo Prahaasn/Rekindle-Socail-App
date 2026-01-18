@@ -47,5 +47,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSContactsUsageDescription</key>
+	<string>Rekindle needs access to your contacts so you can select who you want to reconnect with.</string>
 </dict>
 </plist>
