@@ -10,11 +10,26 @@ const INITIAL_STATE = {
 }
 
 export function useGameState() {
+  // Track if this session came from an invite link (new visitor)
+  const [isFromInviteLink, setIsFromInviteLink] = useState(false)
+
   const [gameState, setGameState] = useState(() => {
     const urlState = getStateFromUrl()
-    if (urlState) return urlState
-
     const saved = localStorage.getItem('rekindle_state')
+
+    // Check if this is a new visitor from an invite link
+    // (has URL state but different from localStorage, or no localStorage)
+    if (urlState) {
+      const savedState = saved ? JSON.parse(saved) : null
+      const isDifferentGame = !savedState || savedState.startedAt !== urlState.startedAt
+
+      if (isDifferentGame) {
+        // This is a new invite - will be marked as such after render
+        return urlState
+      }
+      return urlState
+    }
+
     if (saved) {
       try {
         return JSON.parse(saved)
@@ -24,6 +39,26 @@ export function useGameState() {
     }
     return INITIAL_STATE
   })
+
+  // Check if user arrived from invite link (run once on mount)
+  useEffect(() => {
+    const urlState = getStateFromUrl()
+    const saved = localStorage.getItem('rekindle_state')
+
+    if (urlState) {
+      const savedState = saved ? JSON.parse(saved) : null
+      const isDifferentGame = !savedState || savedState.startedAt !== urlState.startedAt
+
+      if (isDifferentGame) {
+        setIsFromInviteLink(true)
+      }
+    }
+  }, [])
+
+  // Mark invite as accepted (clears the invite landing screen)
+  const acceptInvite = () => {
+    setIsFromInviteLink(false)
+  }
 
   useEffect(() => {
     localStorage.setItem('rekindle_state', JSON.stringify(gameState))
@@ -80,6 +115,8 @@ export function useGameState() {
     resetGame,
     isComplete,
     currentPlayerName,
-    partnerName
+    partnerName,
+    isFromInviteLink,
+    acceptInvite
   }
 }

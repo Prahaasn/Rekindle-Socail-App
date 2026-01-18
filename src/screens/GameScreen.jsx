@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Logo from '../components/Logo'
 import PromptCard from '../components/PromptCard'
 import ProgressJourney from '../components/ProgressJourney'
-import ShareModal from '../components/ShareModal'
+import InviteModal from '../components/InviteModal'
 import { PROMPTS } from '../lib/prompts'
 
 export default function GameScreen({
@@ -61,9 +61,9 @@ export default function GameScreen({
       </main>
 
       {showModal && (
-        <ShareModal
-          url={shareUrl}
-          partnerName={partnerName}
+        <InviteModal
+          senderName={currentPlayerName}
+          inviteUrl={shareUrl}
           onClose={() => setShowModal(false)}
         />
       )}

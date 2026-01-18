@@ -555,3 +555,500 @@ body::before {
     padding: 1.5rem;
   }
 }
+
+/* ============================================
+   INVITE MODAL STYLES
+   ============================================ */
+
+.invite-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 100;
+}
+
+.invite-modal {
+  background: linear-gradient(180deg, var(--ember-800) 0%, var(--ember-900) 100%);
+  border: 1px solid var(--ember-600);
+  border-radius: 24px;
+  padding: 2rem;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+  animation: inviteSlideUp 0.3s ease-out;
+}
+
+@keyframes inviteSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.invite-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: var(--cream-300);
+  cursor: pointer;
+  padding: 0.5rem;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.invite-close-btn:hover {
+  color: var(--cream-100);
+}
+
+.invite-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.invite-fire-emoji {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.invite-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  color: var(--amber-400);
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+}
+
+.invite-subtitle {
+  color: var(--cream-300);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.message-preview {
+  background: var(--ember-900);
+  border: 1px solid var(--ember-600);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid var(--ember-600);
+}
+
+.preview-label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--cream-300);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.vibe-tag {
+  background: var(--ember-700);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.6875rem;
+  color: var(--amber-300);
+  font-weight: 500;
+}
+
+.preview-content {
+  padding: 1rem;
+}
+
+.preview-text {
+  margin: 0 0 0.75rem 0;
+  color: var(--cream-100);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.preview-link {
+  color: var(--coral-400) !important;
+  font-family: monospace;
+  font-size: 0.75rem;
+  margin: 0;
+  word-break: break-all;
+}
+
+.shuffle-btn {
+  width: 100%;
+  padding: 0.875rem;
+  background: transparent;
+  border: 1.5px dashed var(--ember-600);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-family: var(--font-body);
+  color: var(--cream-300);
+  cursor: pointer;
+  margin-bottom: 1.25rem;
+  transition: all 0.2s;
+}
+
+.shuffle-btn:hover {
+  border-color: var(--amber-400);
+  color: var(--amber-400);
+}
+
+.share-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.share-btn {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.share-btn .btn-icon {
+  font-size: 1.125rem;
+}
+
+.share-btn.imessage {
+  background: linear-gradient(135deg, #34C759, #30B350);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 14px rgba(52, 199, 89, 0.35);
+}
+
+.share-btn.imessage:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(52, 199, 89, 0.45);
+}
+
+.share-btn.copy {
+  background: linear-gradient(135deg, var(--coral-500), var(--amber-500));
+  color: white;
+  border: none;
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+}
+
+.share-btn.copy:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.45);
+}
+
+.share-btn.more {
+  background: transparent;
+  color: var(--cream-200);
+  border: 1px solid var(--ember-600);
+}
+
+.share-btn.more:hover {
+  border-color: var(--cream-300);
+  color: var(--cream-100);
+}
+
+.sent-confirmation {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(52, 199, 89, 0.1);
+  border: 1px solid rgba(52, 199, 89, 0.3);
+  border-radius: 12px;
+}
+
+.sent-emoji {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.sent-message {
+  color: #34C759;
+  font-weight: 500;
+  margin: 0;
+  font-style: italic;
+}
+
+.provocative-footer {
+  text-align: center;
+  color: var(--ember-500);
+  font-size: 0.8125rem;
+  font-style: italic;
+  margin-top: 1.25rem;
+  margin-bottom: 0;
+}
+
+/* ============================================
+   INVITE LANDING SCREEN STYLES
+   ============================================ */
+
+.invite-landing-screen {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.invite-landing-content {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.invite-landing-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.invite-landing-emoji {
+  font-size: 3rem;
+}
+
+.invite-landing-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--amber-400);
+  margin: 0;
+}
+
+.invite-card {
+  background: var(--ember-800);
+  border: 1px solid var(--ember-600);
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.invite-card-text {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--cream-100);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.invite-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.invite-progress-dots {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.invite-progress-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ember-600);
+}
+
+.invite-progress-dot.filled {
+  background: var(--amber-400);
+}
+
+.invite-progress-label {
+  font-size: 0.75rem;
+  color: var(--cream-300);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.invite-cta-button {
+  width: 100%;
+  padding: 1.125rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  background: linear-gradient(135deg, var(--coral-500), var(--amber-500));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.invite-cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.5);
+}
+
+.invite-tagline {
+  font-size: 0.875rem;
+  color: var(--cream-300);
+  font-style: italic;
+}
+
+.invite-explainer {
+  width: 100%;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ember-700);
+}
+
+.invite-explainer-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--cream-200);
+  margin: 0 0 0.75rem 0;
+}
+
+.invite-explainer-text {
+  font-size: 0.875rem;
+  color: var(--cream-300);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ============================================
+   NOTIFICATION SIGNUP STYLES
+   ============================================ */
+
+.notify-section {
+  width: 100%;
+  background: var(--ember-800);
+  border: 1px solid var(--ember-600);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.notify-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.notify-emoji {
+  font-size: 1.25rem;
+}
+
+.notify-title {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--amber-400);
+  margin: 0;
+}
+
+.notify-subtitle {
+  font-size: 0.8125rem;
+  color: var(--cream-300);
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.notify-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.notify-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  background: var(--ember-900);
+  border: 1px solid var(--ember-600);
+  border-radius: 10px;
+  color: var(--cream-100);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.notify-input:focus {
+  outline: none;
+  border-color: var(--amber-400);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
+}
+
+.notify-input::placeholder {
+  color: var(--ember-500);
+}
+
+.notify-button {
+  width: 100%;
+  padding: 0.875rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+  background: var(--amber-400);
+  color: var(--ember-900);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.notify-button:hover {
+  background: var(--amber-300);
+  transform: translateY(-1px);
+}
+
+.notify-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.notify-disclaimer {
+  font-size: 0.6875rem;
+  color: var(--ember-500);
+  text-align: center;
+  margin: 0.5rem 0 0 0;
+  font-style: italic;
+}
+
+@media (max-width: 480px) {
+  .invite-modal {
+    padding: 1.5rem;
+    border-radius: 20px;
+  }
+
+  .invite-title {
+    font-size: 1.5rem;
+  }
+
+  .share-btn {
+    padding: 0.875rem;
+    font-size: 0.9375rem;
+  }
+}

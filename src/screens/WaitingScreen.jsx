@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import Logo from '../components/Logo'
 import ProgressJourney from '../components/ProgressJourney'
-import ShareModal from '../components/ShareModal'
+import InviteModal from '../components/InviteModal'
 
-export default function WaitingScreen({ gameState, partnerName, getShareUrl }) {
+export default function WaitingScreen({ gameState, currentPlayerName, partnerName, getShareUrl }) {
   const [showModal, setShowModal] = useState(false)
 
   const handleCopyLink = () => {
@@ -22,14 +22,14 @@ export default function WaitingScreen({ gameState, partnerName, getShareUrl }) {
         <ProgressJourney currentDay={gameState.day} />
 
         <button className="secondary-button" onClick={handleCopyLink}>
-          Copy Link Again
+          Send Link Again
         </button>
       </div>
 
       {showModal && (
-        <ShareModal
-          url={getShareUrl()}
-          partnerName={partnerName}
+        <InviteModal
+          senderName={currentPlayerName}
+          inviteUrl={getShareUrl()}
           onClose={() => setShowModal(false)}
         />
       )}
