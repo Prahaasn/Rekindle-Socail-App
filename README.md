@@ -2,7 +2,7 @@
 
 A beautiful 7-day relationship reconnection game. No backend needed — state passes through shareable URLs.
 
-![Rekindle Preview](https://via.placeholder.com/600x400/1a0f0a/fbbf24?text=🔥+Rekindle)
+![Rekindle Preview](https://via.placeholder.com/600x400/1a0f0a/fbbf24?text=🔥+Rekindle](https://prahaasn.github.io/rekindle-website/))
 
 ## ✨ Features
 
