@@ -542,6 +542,126 @@ body::before {
   color: var(--cream-100);
 }
 
+/* ================================
+   Intro Sequence Animations
+   ================================ */
+
+.intro-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #1C1917;
+  z-index: 9999;
+  cursor: pointer;
+  transition: background-color 1s ease-in-out;
+}
+
+.intro-container.transitioning {
+  background-color: var(--cream-100);
+}
+
+/* Text Phase */
+.intro-text {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 500;
+  color: #FFF8F0;
+  letter-spacing: 2px;
+  text-shadow: 0 0 40px rgba(249, 115, 22, 0.3);
+  animation: introFadeIn 0.8s ease-out forwards;
+}
+
+/* Heart Phase */
+.intro-heart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-heart-emoji {
+  font-size: 80px;
+  animation:
+    introFadeIn 0.5s ease-out forwards,
+    introGentlePulse 1.2s ease-in-out infinite;
+  animation-delay: 0s, 0.5s;
+}
+
+.intro-heart-glow {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.3) 0%, transparent 70%);
+  animation: introGlowPulse 1.2s ease-in-out infinite;
+  animation-delay: 0.5s;
+  pointer-events: none;
+}
+
+/* Skip Hint */
+.intro-skip-hint {
+  position: absolute;
+  bottom: 48px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: rgba(255, 248, 240, 0.4);
+  letter-spacing: 1px;
+  animation: introFadeIn 1s ease-out forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+/* Intro Animations */
+@keyframes introFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes introGentlePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes introGlowPulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .intro-text,
+  .intro-heart-emoji,
+  .intro-heart-glow,
+  .intro-skip-hint {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .intro-container {
+    transition: none;
+  }
+}
+
 @media (max-width: 480px) {
   .screen {
     padding: 1.5rem 1rem;
@@ -553,5 +673,18 @@ body::before {
 
   .prompt-card {
     padding: 1.5rem;
+  }
+
+  .intro-text {
+    font-size: 36px;
+  }
+
+  .intro-heart-emoji {
+    font-size: 64px;
+  }
+
+  .intro-heart-glow {
+    width: 160px;
+    height: 160px;
   }
 }
