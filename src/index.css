@@ -555,3 +555,138 @@ body::before {
     padding: 1.5rem;
   }
 }
+
+/* ============================================
+   INTRO SEQUENCE ANIMATIONS
+   ============================================ */
+
+.intro-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #1C1917;
+  z-index: 9999;
+  cursor: pointer;
+  transition: background-color 1s ease-in-out;
+}
+
+.intro-container.transitioning {
+  background-color: var(--cream-100);
+}
+
+/* Text Phase */
+.intro-text {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 500;
+  color: #FFF8F0;
+  letter-spacing: 2px;
+  text-shadow: 0 0 40px rgba(249, 115, 22, 0.3);
+  animation: introFadeIn 0.8s ease-out forwards;
+}
+
+.intro-text.fade-out {
+  animation: introFadeOut 0.5s ease-in forwards;
+}
+
+/* Heart Phase */
+.intro-heart-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-heart {
+  font-size: 80px;
+  animation:
+    introFadeIn 0.5s ease-out forwards,
+    gentlePulse 1.2s ease-in-out infinite;
+  animation-delay: 0s, 0.5s;
+}
+
+.intro-heart-glow {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.4) 0%, transparent 70%);
+  animation: glowPulse 1.2s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+/* Skip Hint */
+.intro-skip-hint {
+  position: absolute;
+  bottom: 48px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: rgba(255, 248, 240, 0.4);
+  letter-spacing: 1px;
+  animation: introFadeIn 1s ease-out forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+/* Keyframe Animations */
+@keyframes introFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes introFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes gentlePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .intro-text,
+  .intro-text.fade-out,
+  .intro-heart,
+  .intro-heart-glow,
+  .intro-skip-hint {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .intro-container {
+    transition: none;
+  }
+}
