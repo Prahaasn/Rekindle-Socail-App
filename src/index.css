@@ -571,25 +571,65 @@ body::before {
   z-index: 9999;
   cursor: pointer;
   transition: background-color 1s ease-in-out;
+  overflow: hidden;
 }
 
 .intro-container.transitioning {
   background-color: var(--cream-100);
 }
 
-/* Text Phase */
+/* Ambient background glow */
+.intro-ambient-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
+  animation: ambientPulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Text Phase - Letter by letter */
 .intro-text {
   font-family: var(--font-display);
   font-size: 48px;
   font-weight: 500;
   color: #FFF8F0;
-  letter-spacing: 2px;
-  text-shadow: 0 0 40px rgba(249, 115, 22, 0.3);
-  animation: introFadeIn 0.8s ease-out forwards;
+  letter-spacing: 3px;
+  display: flex;
+  position: relative;
 }
 
-.intro-text.fade-out {
-  animation: introFadeOut 0.5s ease-in forwards;
+.intro-letter {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: letterReveal 0.5s ease-out forwards;
+  animation-delay: calc(var(--letter-index) * 0.08s);
+  text-shadow:
+    0 0 20px rgba(249, 115, 22, 0.4),
+    0 0 40px rgba(249, 115, 22, 0.2);
+}
+
+/* Text shimmer effect */
+.intro-text::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 248, 240, 0.1) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s ease-in-out 0.8s;
+}
+
+.intro-text.fade-out .intro-letter {
+  animation: letterFadeOut 0.4s ease-in forwards;
+  animation-delay: calc((8 - var(--letter-index)) * 0.03s);
 }
 
 /* Heart Phase */
@@ -598,24 +638,66 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: heartEnter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.intro-heart-wrapper.fade-out {
+  animation: wrapperFadeOut 0.3s ease-in forwards;
 }
 
 .intro-heart {
   font-size: 80px;
-  animation:
-    introFadeIn 0.5s ease-out forwards,
-    gentlePulse 1.2s ease-in-out infinite;
-  animation-delay: 0s, 0.5s;
+  position: relative;
+  z-index: 2;
+  animation: gentlePulse 1.2s ease-in-out infinite;
+  animation-delay: 0.6s;
+  filter: drop-shadow(0 0 20px rgba(249, 115, 22, 0.5));
 }
 
+/* Layered glow effects for depth */
 .intro-heart-glow {
   position: absolute;
-  width: 160px;
-  height: 160px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(249, 115, 22, 0.4) 0%, transparent 70%);
-  animation: glowPulse 1.2s ease-in-out infinite;
-  animation-delay: 0.5s;
+  pointer-events: none;
+}
+
+.intro-heart-glow-outer {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.25) 0%, transparent 70%);
+  animation: glowPulseOuter 1.2s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+
+.intro-heart-glow-inner {
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.35) 0%, transparent 70%);
+  animation: glowPulseInner 1.2s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+
+/* Floating ember particles */
+.intro-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.intro-ember {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.9) 0%, rgba(249, 115, 22, 0.6) 100%);
+  left: 50%;
+  top: 50%;
+  transform: translate(var(--start-x), var(--start-y));
+  opacity: 0;
+  animation: emberFloat var(--duration) ease-out infinite;
+  animation-delay: var(--delay);
+  box-shadow: 0 0 6px rgba(251, 191, 36, 0.8);
 }
 
 /* Skip Hint */
@@ -626,31 +708,64 @@ body::before {
   font-size: 12px;
   color: rgba(255, 248, 240, 0.4);
   letter-spacing: 1px;
-  animation: introFadeIn 1s ease-out forwards;
-  animation-delay: 0.5s;
   opacity: 0;
+  animation: hintFadeIn 1s ease-out 1s forwards;
 }
 
-/* Keyframe Animations */
-@keyframes introFadeIn {
+/* ============================================
+   KEYFRAME ANIMATIONS
+   ============================================ */
+
+@keyframes letterReveal {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(20px) scale(0.9);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
-@keyframes introFadeOut {
+@keyframes letterFadeOut {
   from {
     opacity: 1;
     transform: translateY(0);
   }
   to {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    left: -100%;
+  }
+  to {
+    left: 200%;
+  }
+}
+
+@keyframes heartEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes wrapperFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
   }
 }
 
@@ -663,23 +778,82 @@ body::before {
   }
 }
 
-@keyframes glowPulse {
+@keyframes glowPulseOuter {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.15);
+  }
+}
+
+@keyframes glowPulseInner {
   0%, 100% {
     opacity: 0.6;
     transform: scale(1);
   }
   50% {
     opacity: 1;
-    transform: scale(1.15);
+    transform: scale(1.2);
+  }
+}
+
+@keyframes ambientPulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes emberFloat {
+  0% {
+    opacity: 0;
+    transform: translate(var(--start-x), var(--start-y)) scale(0.5);
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc(var(--start-x) + 20px),
+      calc(var(--start-y) - 80px)
+    ) scale(0.2);
+  }
+}
+
+@keyframes hintFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 0.4;
+    transform: translateY(0);
   }
 }
 
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
-  .intro-text,
-  .intro-text.fade-out,
+  .intro-letter,
+  .intro-text.fade-out .intro-letter,
+  .intro-text::after,
   .intro-heart,
-  .intro-heart-glow,
+  .intro-heart-wrapper,
+  .intro-heart-wrapper.fade-out,
+  .intro-heart-glow-outer,
+  .intro-heart-glow-inner,
+  .intro-ambient-glow,
+  .intro-ember,
   .intro-skip-hint {
     animation: none;
     opacity: 1;
