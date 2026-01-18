@@ -1,17 +1,21 @@
 import PixelFire from './PixelFire'
+import './Logo.css'
 
-export default function Logo({ size = 'medium', showFire = true }) {
-  const fontSize = size === 'small' ? '1.5rem' : size === 'large' ? '3rem' : '2.25rem'
+export default function Logo({ size = 'medium', showFire = true, showTagline = false }) {
+  const sizeClass = `logo-text--${size}`
 
   return (
-    <div className="logo">
-      <h1 className="logo-text" style={{ fontSize }}>
+    <div className="logo-container">
+      <h1 className={`logo-text ${sizeClass}`}>
         rekindle
       </h1>
       {showFire && (
         <div className="logo-fire">
-          <PixelFire size={size} />
+          <PixelFire size={size === 'large' ? 'medium' : 'small'} />
         </div>
+      )}
+      {showTagline && (
+        <p className="logo-tagline">seven days to reconnect</p>
       )}
     </div>
   )

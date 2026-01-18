@@ -15,9 +15,7 @@ export default function LandingScreen({ onStart }) {
   return (
     <div className="screen landing-screen">
       <div className="landing-content">
-        <Logo size="large" />
-
-        <p className="landing-tagline">7 days to reconnect</p>
+        <Logo size="large" showTagline />
 
         <form className="landing-form" onSubmit={handleSubmit}>
           <div className="input-group">
@@ -39,7 +37,7 @@ export default function LandingScreen({ onStart }) {
               type="text"
               value={name2}
               onChange={(e) => setName2(e.target.value)}
-              placeholder="Enter their name"
+              placeholder="Who are you reconnecting with?"
               autoComplete="off"
             />
           </div>
@@ -49,9 +47,14 @@ export default function LandingScreen({ onStart }) {
             className="primary-button"
             disabled={!name1.trim() || !name2.trim()}
           >
-            Begin Journey
+            Begin Your Journey
           </button>
         </form>
+
+        <p className="screen-footer-text">
+          Answer one prompt each day. Share your link.
+          Reconnect over 7 meaningful questions.
+        </p>
       </div>
     </div>
   )

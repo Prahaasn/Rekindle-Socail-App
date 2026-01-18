@@ -1,0 +1,99 @@
+/* Intro Container */
+.intro-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-dark);
+  z-index: 9999;
+  cursor: pointer;
+  transition: background-color 1s ease-in-out;
+}
+
+.intro-phase-transition {
+  background-color: var(--bg-primary);
+}
+
+/* Text */
+.intro-text {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 500;
+  color: var(--text-inverse);
+  letter-spacing: 2px;
+  margin: 0;
+  animation: introFadeInUp 0.8s ease-out forwards;
+}
+
+.intro-text.fade-out {
+  animation: introFadeOut 0.5s ease-in forwards;
+}
+
+/* Heart */
+.intro-heart {
+  font-size: 80px;
+  animation:
+    introFadeIn 0.5s ease-out forwards,
+    gentleHeartPulse 1.2s ease-in-out infinite;
+}
+
+.intro-heart.fade-out {
+  animation: introFadeOut 0.5s ease-in forwards;
+}
+
+/* Skip Hint */
+.intro-skip-hint {
+  position: absolute;
+  bottom: 48px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: rgba(255, 248, 240, 0.4);
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* === ANIMATIONS === */
+
+@keyframes introFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes introFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes introFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* IMPORTANT: Gentle, consistent heart pulse */
+@keyframes gentleHeartPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .intro-text {
+    font-size: 36px;
+  }
+
+  .intro-heart {
+    font-size: 64px;
+  }
+}

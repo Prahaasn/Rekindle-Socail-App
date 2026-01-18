@@ -1,0 +1,38 @@
+/* Progress Journey Component Styles */
+
+.progress-journey {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.progress-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.progress-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-light);
+  transition: all 0.3s ease;
+}
+
+.progress-dot.active {
+  width: 14px;
+  height: 14px;
+  background: var(--accent-primary);
+  box-shadow: 0 0 12px rgba(249, 115, 22, 0.6);
+}
+
+.progress-dot.completed {
+  background: var(--accent-secondary);
+}

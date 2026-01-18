@@ -29,7 +29,7 @@ export default function CompleteScreen({ gameState, onReset }) {
         <Logo size="medium" />
 
         <div className="complete-message">
-          <span className="complete-emoji">💝</span>
+          <span className="complete-heart heart-pulse">💝</span>
           <h2>Journey Complete</h2>
           <p>
             {gameState.names[0]} and {gameState.names[1]} spent 7 days reconnecting.
