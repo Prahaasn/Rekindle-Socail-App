@@ -587,6 +587,21 @@ body::before {
   background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
   animation: ambientPulse 4s ease-in-out infinite;
   pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* Cinematic vignette overlay */
+.intro-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* Text Phase - Letter by letter */
@@ -605,6 +620,7 @@ body::before {
   transform: translateY(20px);
   animation: letterReveal 0.5s ease-out forwards;
   animation-delay: calc(var(--letter-index) * 0.08s);
+  will-change: transform, opacity;
   text-shadow:
     0 0 20px rgba(249, 115, 22, 0.4),
     0 0 40px rgba(249, 115, 22, 0.2);
@@ -652,6 +668,7 @@ body::before {
   animation: gentlePulse 1.2s ease-in-out infinite;
   animation-delay: 0.6s;
   filter: drop-shadow(0 0 20px rgba(249, 115, 22, 0.5));
+  will-change: transform;
 }
 
 /* Layered glow effects for depth */
@@ -659,6 +676,7 @@ body::before {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
+  will-change: transform, opacity;
 }
 
 .intro-heart-glow-outer {
@@ -698,6 +716,7 @@ body::before {
   animation: emberFloat var(--duration) ease-out infinite;
   animation-delay: var(--delay);
   box-shadow: 0 0 6px rgba(251, 191, 36, 0.8);
+  will-change: transform, opacity;
 }
 
 /* Skip Hint */

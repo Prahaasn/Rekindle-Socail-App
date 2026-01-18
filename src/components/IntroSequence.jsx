@@ -1,5 +1,25 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 
+const INTRO_SEEN_KEY = 'rekindle_intro_seen'
+
+// Check if user has seen intro before
+function hasSeenIntro() {
+  try {
+    return localStorage.getItem(INTRO_SEEN_KEY) === 'true'
+  } catch {
+    return false
+  }
+}
+
+// Mark intro as seen
+function markIntroSeen() {
+  try {
+    localStorage.setItem(INTRO_SEEN_KEY, 'true')
+  } catch {
+    // localStorage not available
+  }
+}
+
 // Floating ember particle component
 function EmberParticle({ delay, duration, startX, startY }) {
   const style = useMemo(() => ({
@@ -24,15 +44,28 @@ function generateParticles(count) {
 }
 
 export default function IntroSequence({ onComplete }) {
-  const [phase, setPhase] = useState('text') // 'text' | 'text-exit' | 'heart' | 'heart-exit' | 'transition' | 'done'
+  const [phase, setPhase] = useState(() => {
+    // Skip intro for returning users
+    if (hasSeenIntro()) {
+      return 'done'
+    }
+    return 'text'
+  })
   const [particles] = useState(() => generateParticles(12))
 
   const handleSkip = useCallback(() => {
+    markIntroSeen()
     setPhase('done')
     onComplete()
   }, [onComplete])
 
   useEffect(() => {
+    // If already done (returning user), complete immediately
+    if (phase === 'done') {
+      onComplete()
+      return
+    }
+
     const timers = [
       // Phase 1: Text visible for 1.7s, then start fade out
       setTimeout(() => setPhase('text-exit'), 1700),
@@ -48,20 +81,23 @@ export default function IntroSequence({ onComplete }) {
 
       // Complete at 5.6s
       setTimeout(() => {
+        markIntroSeen()
         setPhase('done')
         onComplete()
       }, 5600),
     ]
 
     return () => timers.forEach(clearTimeout)
-  }, [onComplete])
+  }, [onComplete, phase])
 
   // Handle keyboard skip
   useEffect(() => {
+    if (phase === 'done') return
+
     const handleKeyDown = () => handleSkip()
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [handleSkip])
+  }, [handleSkip, phase])
 
   if (phase === 'done') return null
 
@@ -77,6 +113,9 @@ export default function IntroSequence({ onComplete }) {
       tabIndex={0}
       aria-label="Skip intro"
     >
+      {/* Vignette overlay for cinematic feel */}
+      <div className="intro-vignette" />
+
       {/* Ambient glow background */}
       <div className="intro-ambient-glow" />
 
